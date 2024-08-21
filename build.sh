@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "Compiling the code and generating any necessary artifacts..."
-# Simulate a build process
-echo "Build completed."
+echo "Compiling the Java program..."
+javac -d . src/Main.java src/MainTest.java
+echo "Compilation finished."
