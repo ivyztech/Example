@@ -21,7 +21,8 @@ pipeline {
             steps {
                 script {
                     echo "Compiling the code and generating any necessary artifacts"
-                    sh 'bash build.sh'
+                    sh 'g++ -o main main.cpp'   // Compile the main application
+                    sh 'g++ -o test test.cpp'   // Compile the test application
                 }
             }
         }
@@ -30,14 +31,21 @@ pipeline {
             steps {
                 script {
                     echo "Running unit tests"
-                    sh './test'  
+                    sh './test'   // Run the test executable
                 }
             }
         }
 
         stage('Code Quality Check') {
             steps {
-                echo "Checking the quality of the code"
+                script {
+                    echo "Running code quality checks"
+                    // Install cppcheck if not available, only required on the first run
+                    sh 'which cppcheck || sudo apt-get install -y cppcheck' 
+                    
+                    // Run cppcheck on the C++ source files
+                    sh 'cppcheck --enable=all --inconclusive --error-exitcode=1 .'
+                }
             }
         }
 
@@ -45,7 +53,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
-                    sh 'bash deploy.sh'  
+                    sh 'bash deploy.sh' 
                 }
             }
         }
@@ -61,7 +69,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                    sh 'bash deploy.sh' 
+                    sh 'bash deploy.sh'  
                 }
             }
         }
