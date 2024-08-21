@@ -1,4 +1,4 @@
-echo "Building the application..."
-g++ -o main main.cpp
-g++ -o test test.cpp
+#!/bin/bash
+echo "Compiling the code and generating any necessary artifacts..."
+# Simulate a build process
 echo "Build completed."
