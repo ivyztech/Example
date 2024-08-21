@@ -20,8 +20,9 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    echo "Installing g++"
-                    sh 'sudo apt-get update && sudo apt-get install -y g++'
+                    echo "Installing Python (if not already installed)"
+                    sh 'apt-get update'
+                    sh 'apt-get install -y python3'
                 }
             }
         }
@@ -29,9 +30,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo "Compiling the code and generating any necessary artifacts"
-                    sh 'g++ -o main main.cpp'   // Compile the main application
-                    sh 'g++ -o test test.cpp'   // Compile the test application
+                    echo "No build needed for Python"
                 }
             }
         }
@@ -40,7 +39,7 @@ pipeline {
             steps {
                 script {
                     echo "Running unit tests"
-                    sh './test'   // Run the test executable
+                    sh 'python3 test.py'   // Run the Python test script
                 }
             }
         }
@@ -49,11 +48,8 @@ pipeline {
             steps {
                 script {
                     echo "Running code quality checks"
-                    // Install cppcheck if not available, only required on the first run
-                    sh 'which cppcheck || sudo apt-get install -y cppcheck'
-                    
-                    // Run cppcheck on the C++ source files
-                    sh 'cppcheck --enable=all --inconclusive --error-exitcode=1 .'
+                    sh 'pip3 install pylint'   // Install pylint
+                    sh 'pylint main.py'        // Run pylint on main.py
                 }
             }
         }
@@ -62,7 +58,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
-                    sh 'bash deploy.sh'  // Replace with shell command
+                    sh 'bash deploy.sh'  // Run deployment script (if applicable)
                 }
             }
         }
@@ -78,7 +74,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                    sh 'bash deploy.sh'  // Replace with shell command
+                    sh 'bash deploy.sh'  // Run deployment script (if applicable)
                 }
             }
         }
