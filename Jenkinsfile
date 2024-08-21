@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     echo "Cloning the repository from ${env.REPO_URL}"
-                    git branch: 'main', url: "${env.REPO_URL}"
+                    git branch: 'master', url: "${env.REPO_URL}"
                 }
             }
         }
