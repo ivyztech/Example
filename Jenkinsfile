@@ -17,11 +17,19 @@ pipeline {
             }
         }
 
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    echo "Installing g++"
+                    sh 'sudo apt-get update && sudo apt-get install -y g++'
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 script {
                     echo "Compiling the code and generating any necessary artifacts"
-                    // Compile the main application and the test application
                     sh 'g++ -o main main.cpp'   // Compile the main application
                     sh 'g++ -o test test.cpp'   // Compile the test application
                 }
