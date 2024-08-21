@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DIRECTORY_PATH = "${WORKSPACE}" 
+        DIRECTORY_PATH = "${WORKSPACE}"
         TESTING_ENVIRONMENT = 'staging'
-        PRODUCTION_ENVIRONMENT = 'Dominique' 
+        PRODUCTION_ENVIRONMENT = 'Dominique'
     }
 
     stages {
@@ -30,7 +30,14 @@ pipeline {
             steps {
                 script {
                     echo "Checking the quality of the code"
-                    echo "Code quality checks passed."
+                    // Running Checkstyle
+                    sh 'java -jar checkstyle-X.X-all.jar -c checkstyle.xml src/Main.java src/MainTest.java > checkstyle-report.xml'
+                    
+                    // Print Checkstyle report to the console
+                    sh 'cat checkstyle-report.xml'
+                    
+                    // Optionally, fail the build if Checkstyle finds issues
+                    sh 'grep -q "<error" checkstyle-report.xml && exit 1 || exit 0'
                 }
             }
         }
