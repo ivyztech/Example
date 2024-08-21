@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     echo "Compiling the code and generating any necessary artifacts"
-                    bat 'build.bat' // Use batch script instead of bash script
+                    sh 'bash build.sh'  // Replace with shell command
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     echo "Running unit tests"
-                    bat 'test.exe' // Run the compiled test executable
+                    sh './test'  // Replace with shell command
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
         stage('Code Quality Check') {
             steps {
                 echo "Checking the quality of the code"
-                // Add code quality check here, e.g., running a static analysis tool
+                // Add your code quality check commands here
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
-                    bat 'deploy.bat' // Use batch script instead of bash script
+                    sh 'bash deploy.sh'  // Replace with shell command
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                    bat 'deploy.bat' // Reuse the batch script for deployment
+                    sh 'bash deploy.sh'  // Replace with shell command
                 }
             }
         }
