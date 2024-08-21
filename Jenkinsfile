@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     echo "Compiling the code and generating any necessary artifacts"
-                    sh 'bash build.sh'  // Replace with shell command
+                    sh 'bash build.sh'
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     echo "Running unit tests"
-                    sh './test'  // Replace with shell command
+                    sh './test'  
                 }
             }
         }
@@ -38,7 +38,6 @@ pipeline {
         stage('Code Quality Check') {
             steps {
                 echo "Checking the quality of the code"
-                // Add your code quality check commands here
             }
         }
 
@@ -46,7 +45,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
-                    sh 'bash deploy.sh'  // Replace with shell command
+                    sh 'bash deploy.sh'  
                 }
             }
         }
@@ -62,7 +61,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                    sh 'bash deploy.sh'  // Replace with shell command
+                    sh 'bash deploy.sh' 
                 }
             }
         }
