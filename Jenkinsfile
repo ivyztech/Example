@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/ivyztech/Example.git' 
+        REPO_URL = 'https://github.com/ivyztech/Example.git'
         TESTING_ENVIRONMENT = 'staging'
         PRODUCTION_ENVIRONMENT = 'Dominique Villafuerte'
     }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     echo "Compiling the code and generating any necessary artifacts"
-                    sh "bash build.sh"
+                    bat 'build.bat' // Use batch script instead of bash script
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     echo "Running unit tests"
-                    sh "./test"
+                    bat 'test.exe' // Run the compiled test executable
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
         stage('Code Quality Check') {
             steps {
                 echo "Checking the quality of the code"
-                // Integrate a tool like cppcheck here if needed
+                // Add code quality check here, e.g., running a static analysis tool
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
-                    sh "bash deploy.sh"
+                    bat 'deploy.bat' // Use batch script instead of bash script
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                    sh "bash deploy.sh"
+                    bat 'deploy.bat' // Reuse the batch script for deployment
                 }
             }
         }
